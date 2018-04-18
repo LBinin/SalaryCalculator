@@ -1,6 +1,8 @@
 # salary-calculator
 
-> 软件质量保证与测试
+> 📱 一款五险一金计算器
+
+[👉🏻 实例地址](https://item.lbinin.com/)
 
 ## Build Setup
 
@@ -18,4 +20,4 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+如有问题欢迎 [issues](https://github.com/LBinin/SalaryCalculator/issues) 我~
