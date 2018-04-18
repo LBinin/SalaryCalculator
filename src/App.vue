@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <!-- <router-view/> -->
-    <calculator @data="setData"></calculator>
-    <fee-detail :data="data"/>
-    <m-footer/>
-  </div>
+  <transition name="el-fade-in">
+    <div id="app" v-show="show">
+      <!-- <img src="./assets/logo.png"> -->
+      <!-- <router-view/> -->
+      <calculator @data="setData"></calculator>
+      <fee-detail :data="data" />
+      <m-footer/>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -16,12 +18,17 @@ import FeeDetail from '@/components/fee-detail/fee-detail'
 export default {
   data() {
     return {
-      data: null
+      data: null,
+      show: false
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.show = true
+    })
   },
   methods: {
     setData(data) {
-      console.log(data)
       this.data = data
     }
   },

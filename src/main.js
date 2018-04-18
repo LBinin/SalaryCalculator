@@ -14,8 +14,10 @@ import {
   Col,
   Checkbox,
   Select,
+  OptionGroup,
   Option,
-  Tooltip
+  Tooltip,
+  Loading
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -29,8 +31,10 @@ Vue.use(Input)
 Vue.use(Col)
 Vue.use(Checkbox)
 Vue.use(Select)
+Vue.use(OptionGroup)
 Vue.use(Option)
 Vue.use(Tooltip)
+Vue.use(Loading)
 
 Vue.component(VePie.name, VePie)
 

@@ -1,8 +1,10 @@
 <template>
   <div class="calculator">
+
     <el-card :body-style="cardBodyStyle">
       <div slot="header" class="clearfix">
         <span class="cal-title">五险一金及税后工资计算器</span>
+        <city-select @changeCity="cityChanged" />
       </div>
       <el-form class="cal-form" :model="calForm" :rules="formRules" label-width="150px" :label-position="labelPosition" ref="calForm">
 
@@ -50,7 +52,7 @@
         </el-form-item>
 
         <el-button icon="el-icon-delete" type="default" class="cal-submit-btn" @click="resetForm('calForm')">重置</el-button>
-        <el-button icon="el-icon-edit" type="primary" class="cal-submit-btn" @click="submitForm('calForm')">计算</el-button>
+        <el-button icon="el-icon-edit" type="primary" class="cal-submit-btn" @click="submitForm('calForm')" v-loading.fullscreen.lock="loading" element-loading-text="计算中...">计算</el-button>
       </el-form>
     </el-card>
   </div>
@@ -58,9 +60,10 @@
 
 <script>
 import { getBasicInfo, getCalculateResult } from 'api/calculate'
-// import CitySelect from ''
+import CitySelect from '@/base/city-select/city-select'
 
 const MOBILE_WIDTH = 670
+const LOADING_TIMEOUT = 5000
 
 export default {
   created() {
@@ -75,6 +78,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       data: null,
       isMobile: false,
       currCity: 'changsha',
@@ -126,6 +130,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.fullScreenLoading()
           getCalculateResult({
             city: this.currCity,
             origin_salary: this.calForm.originSalary,
@@ -135,11 +140,13 @@ export default {
             is_exgjj: this.calForm.isExGjj,
             factor_exgjj: '0.0' + this.calForm.factorExgjj
           }).then(data => {
+            this.loading = false
             if (data.code === 0) {
               this.data = data.data
               this.$emit('data', data.data)
             } else {
               alert(data.msg)
+              // this.$message.error(data.msg)
             }
           })
         } else {
@@ -152,6 +159,18 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
+    fullScreenLoading() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, LOADING_TIMEOUT)
+    },
+    cityChanged(city) {
+      this.currCity = city
+      console.log('city')
+      console.log(city)
+      this._getBasicInfo(city)
+    },
     _getBasicInfo(cityName) {
       getBasicInfo(cityName).then(data => {
         if (data.code === 0) {
@@ -160,6 +179,7 @@ export default {
           this.calForm.gjj = +this.data.base_gjj
         } else {
           alert(data.msg)
+          // this.$message.error(data.msg)
         }
       })
     },
@@ -204,6 +224,9 @@ export default {
         this.calForm.gjj = +this.data['gjj'].min
       }
     }
+  },
+  components: {
+    CitySelect
   }
 }
 </script>
