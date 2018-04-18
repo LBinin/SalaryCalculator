@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { getBasicInfo, getCalculateResult } from 'api/calculate'
+import { getBasicInfo, getCalculateResult } from '@/api/calculate'
 import CitySelect from '@/base/city-select/city-select'
 
 const MOBILE_WIDTH = 670
@@ -167,8 +167,6 @@ export default {
     },
     cityChanged(city) {
       this.currCity = city
-      console.log('city')
-      console.log(city)
       this._getBasicInfo(city)
     },
     _getBasicInfo(cityName) {
