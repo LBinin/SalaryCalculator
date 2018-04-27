@@ -167,6 +167,7 @@ export default {
     },
     cityChanged(city) {
       this.currCity = city
+      this.resetForm('calForm')
       this._getBasicInfo(city)
     },
     _getBasicInfo(cityName) {
