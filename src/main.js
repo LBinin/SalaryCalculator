@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VePie from 'v-charts/lib/pie'
+import 'babel-polyfill'
 
 import {
   Button,
